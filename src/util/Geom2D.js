@@ -165,3 +165,30 @@ export const svgPathToPolygons = path => {
 
   return polygons;
 }
+/**
+ * A utility helper that parses multiple SVG paths(each path is a line) into
+ * a single polygon points.
+ * @param {Array<SVGElement>} paths the SVG paths
+ * @returns {Array<Array<number>>} the polygon
+ */
+export const svgPathsToPolygon = svgGroupOfPath => {
+  // example paths:
+  // <path id="path2"  d='M100,100 L30, 200'   />
+  // <path id="path2"  d='M30,100 L70, 200'   />
+  var paths = svgGroupOfPath.getElementsByTagName('path');
+  var points = [];
+
+  var firstSecondPoint = paths[0].getAttribute('d').replace('L', '').replace('M', '').split(' ');
+  points.push(firstSecondPoint[0].split(',').map(p => parseFloat(p)))
+  points.push(firstSecondPoint[1].split(',').map(p => parseFloat(p)))
+  for (var i = 1; i < paths.length; i++) {
+    var pointsXYstring = paths[i].getAttribute('d').split(' ')[1].replace('L', '').split(',');
+    
+    points.push(pointsXYstring.map(p => parseFloat(p)))
+    
+  }
+  return points;
+}
+
+// TODO: add support for buffer
+// point in polyline

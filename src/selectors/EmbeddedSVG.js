@@ -108,6 +108,10 @@ export const svgArea = annotation => {
     return svgPathArea(shape);
   else if (nodeName == 'line')
     return 0;
+  else if (nodeName == 'polyline')
+    return 0;
+  else if (nodeName == 'g')
+    return 0;
   else
     throw `Unsupported SVG shape type: ${nodeName}`;
 }
